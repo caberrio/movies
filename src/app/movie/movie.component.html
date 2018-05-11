@@ -2,7 +2,7 @@
   <div class="card text-center">
     <div class="card-body">
       <a href="#">
-        <img [src]="'https://image.tmdb.org/t/p/w185'.concat(movie.poster_path)" alt="MovieImg">
+        <img [src]="movie.poster_path ? 'https://image.tmdb.org/t/p/w185'.concat(movie.poster_path) : '../noimage.jpg'" alt="">
       </a>
     </div>
   </div>

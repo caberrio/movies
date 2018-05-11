@@ -31,7 +31,7 @@ export class ModalComponent implements OnInit {
       favorites.push(movieSelected);
       localStorage.setItem('favorites', JSON.stringify(favorites));
     } else {
-      alert('hola');
+      alert('The movie you selected is already in your Favorites list');
     }
   }
 }

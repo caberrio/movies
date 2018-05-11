@@ -1,27 +1,29 @@
+<div class="container">
   <div class="modal-header">
     <h2 class="modal-title">{{ movie.title }}</h2>
   </div>
   <div class="modal-body">
     <div class="row">
       <div class="col-md-4">
-        <img [src]="'https://image.tmdb.org/t/p/w185'.concat(movie.poster_path)" class="thumbnail">
+        <img [src]="'https://image.tmdb.org/t/p/w185'.concat(movie.poster_path)"
+             class="thumbnail">
       </div>
-
       <div class="col-md-8">
-        <ul class="list-group">
-          <li class="list-group-item"><strong>Released: {{movie.release_date}}</strong> </li>
-        </ul>
-
         <div class="row">
-          <div class="well">
+          <div class="card">
+            <strong>Released: {{ movie.release_date }}</strong>
+          </div>
+        </div>
+        <div class="row">
+          <div class="card">
             <h3>Overview</h3>
-
+            {{ movie.overview }}
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="modal-footer">
-    <a class="btn btn-default" (click)="activeModal.close()">Close</a>
-    <a class="btn btn-default" (click)="addToFavorites(movie)">Add to favorites</a>
+  <div class="modal-footer"><a class="btn btn-secondary" (click)="activeModal.close()">Close</a>
+    <a class="btn btn-secondary" (click)="addToFavorites(movie)">Add to favorites</a>
   </div>
+</div>
