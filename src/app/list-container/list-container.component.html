@@ -1,0 +1,13 @@
+<app-list [title]="'Favorites'" [movies]="moviesFavorite" *ngIf="moviesFavorite"></app-list>
+
+<hr *ngIf="moviesFavorite">
+
+<app-list [title]="'Result'" [movies]="moviesSearch" *ngIf="moviesSearch" (update)="loadFavorites()"></app-list>
+
+<hr *ngIf="moviesSearch">
+
+<app-list [title]="'Popular'" [movies]="moviesPopular" (update)="loadFavorites()"></app-list>
+
+<hr>
+
+<app-list [title]="'Top Rated'" [movies]="moviesTop" (update)="loadFavorites()"></app-list>
