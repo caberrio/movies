@@ -1,5 +1,7 @@
 import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class GetListService {
 
   APIKEY = '5198931fa9657e14d0fd0261c276ca40';

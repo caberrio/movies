@@ -1,11 +1,10 @@
 import {Component, Input, OnInit, SimpleChange, OnChanges} from '@angular/core';
-import {GetListService} from '../get-list.service';
+import {MovieService} from '../movie.service';
 
 @Component({
   selector: 'app-list-container',
   templateUrl: './list-container.component.html',
-  styleUrls: ['./list-container.component.css'],
-  providers: [GetListService]
+  styleUrls: ['./list-container.component.css']
 })
 export class ListContainerComponent implements OnInit, OnChanges {
 
@@ -17,12 +16,16 @@ export class ListContainerComponent implements OnInit, OnChanges {
 
   @Input() query;
 
-  constructor(private getListService: GetListService) {
+  constructor(private movieService: MovieService) {
   }
 
   ngOnInit() {
-    this.moviesPopular = this.getListService.getList('popular');
-    this.moviesTop = this.getListService.getList('top_rated');
+    this.movieService.getList('popular').then(data => {
+      this.moviesPopular = data;
+    });
+    this.movieService.getList('top_rated').then(data => {
+      this.moviesTop = data;
+    });
     this.loadFavorites();
 
   }
@@ -33,7 +36,9 @@ export class ListContainerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
-    this.moviesSearch = this.getListService.searchMovie(this.query);
+    this.movieService.searchMovie(this.query).then(data => {
+      this.moviesSearch = data;
+    });
   }
 
   /*searchMovie() {
