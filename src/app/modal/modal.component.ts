@@ -9,29 +9,30 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class ModalComponent implements OnInit {
   @Input() movie;
+  text = '';
+  index = -1;
+  favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
   constructor(public activeModal: NgbActiveModal) {
   }
 
   ngOnInit() {
-    console.log(this.movie);
+    this.isFavorite(this.movie.id) ? this.text = 'Remove from favorites' : this.text = 'Add to favorites';
   }
 
-  addToFavorites(movieSelected) {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  isFavorite(id) {
     let sw = true;
-
-    favorites.forEach(item => {
-      if (item.id === movieSelected.id && sw) {
+    this.favorites.forEach(item => {
+      if (item.id === id && sw) {
+        this.index = this.favorites.indexOf(item);
         sw = false;
       }
     });
-
-    if (sw) {
-      favorites.push(movieSelected);
-      localStorage.setItem('favorites', JSON.stringify(favorites));
-    } else {
-      alert('hola');
-    }
+    return !sw;
+  }
+  updateFavorites(movieSelected) {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    !this.isFavorite(movieSelected.id) ? favorites.push(movieSelected) : favorites.splice(this.index, 1);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
   }
 }

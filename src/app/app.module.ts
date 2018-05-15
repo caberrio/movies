@@ -11,6 +11,7 @@ import {ListContainerComponent} from './list-container/list-container.component'
 import {HeaderComponent} from './header/header.component';
 import {FormsModule} from '@angular/forms';
 import {ModalComponent} from './modal/modal.component';
+import {MovieService} from './movie.service';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {ModalComponent} from './modal/modal.component';
     HttpClientModule,
     FormsModule
   ],
+  providers: [MovieService],
   bootstrap: [AppComponent],
   entryComponents: [ModalComponent]
 })
