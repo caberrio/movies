@@ -32,7 +32,6 @@ export class ListContainerComponent implements OnInit, OnChanges {
 
   loadFavorites() {
     this.moviesFavorite = JSON.parse(localStorage.getItem('favorites'));
-    console.log('loading favs');
   }
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {

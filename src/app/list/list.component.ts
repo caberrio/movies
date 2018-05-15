@@ -23,7 +23,6 @@ export class ListComponent implements OnInit {
 
   openMovie(movie) {
     const modalRef = this.modalService.open(ModalComponent, { size: 'lg'});
-    console.log(movie);
     modalRef.componentInstance.movie = movie;
 
     modalRef.result.then((data) => {
