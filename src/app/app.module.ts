@@ -25,7 +25,6 @@ import {AuthService} from './auth/auth.service';
     HeaderComponent,
     ModalComponent,
     AuthComponent
-
   ],
   imports: [
     BrowserModule,

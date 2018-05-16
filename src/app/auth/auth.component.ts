@@ -20,6 +20,7 @@ export class AuthComponent implements OnInit {
   constructor(private modalService: NgbModal, private authService: AuthService) { }
 
   ngOnInit() {
+    this.authService.getModel('movie');
   }
 
   openWindow(content) {

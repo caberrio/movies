@@ -1,5 +1,6 @@
 import {Component, Input, OnInit, SimpleChange, OnChanges} from '@angular/core';
 import {MovieService} from '../movie.service';
+import {CookieService} from 'ngx-cookie-service';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class ListContainerComponent implements OnInit, OnChanges {
 
   @Input() query;
 
-  constructor(private movieService: MovieService) {
+  constructor(private movieService: MovieService, private cookie: CookieService) {
   }
 
   ngOnInit() {
@@ -41,6 +42,4 @@ export class ListContainerComponent implements OnInit, OnChanges {
       });
     }
   }
-
-
 }

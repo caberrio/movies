@@ -19,7 +19,6 @@ export class HeaderComponent implements OnInit {
   onNewSearch() {
     if (this.query !== '') {
       this.newSearch.emit(this.query);
-      console.log('Query emited: ' + this.query);
     }
   }
 }
