@@ -2,6 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientModule} from '@angular/common/http';
+import { SbxCoreModule, SbxSessionModule, SbxSessionService } from 'sbxangular';
 
 
 import {AppComponent} from './app.component';
@@ -12,6 +13,8 @@ import {HeaderComponent} from './header/header.component';
 import {FormsModule} from '@angular/forms';
 import {ModalComponent} from './modal/modal.component';
 import {MovieService} from './movie.service';
+import { AuthComponent } from './auth/auth.component';
+import {AuthService} from './auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -20,19 +23,25 @@ import {MovieService} from './movie.service';
     MovieComponent,
     ListContainerComponent,
     HeaderComponent,
-    ModalComponent
+    ModalComponent,
+    AuthComponent
 
   ],
   imports: [
     BrowserModule,
     NgbModule.forRoot(),
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    SbxCoreModule,
+    SbxSessionModule
   ],
-  providers: [MovieService],
+  providers: [MovieService, AuthService],
   bootstrap: [AppComponent],
   entryComponents: [ModalComponent]
 })
 
 export class AppModule {
+  constructor(private session: SbxSessionService) {
+    this.session.initialize(222, '0b307a51-c8de-4613-998e-ddd3ecb7c823');
+  }
 }

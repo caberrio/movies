@@ -1,0 +1,62 @@
+<ng-template #loginTemplate let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Log In</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="form-group">
+        <label for="user"><b>Username</b></label>
+        <input [(ngModel)]="userLogin" type="text"  class="form-control" placeholder="Enter Username" id="user" required>
+      </div>
+      <div class="form-group">
+        <label for="pwd"><b>Password</b></label>
+        <input [(ngModel)]="pwdLogin" type="password" class="form-control" placeholder="Enter Password" id="pwd" required>
+      </div>
+      <button type="button" class="btn btn-success btn-block" (click)="login()">Login</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #signupTemplate let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Sign Up</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="form-group">
+        <label for="userid"><b>Username</b></label>
+        <input [(ngModel)]="userSignup" type="text" class="form-control" placeholder="Enter Username" id="userid" required>
+      </div>
+      <div class="form-group">
+        <label ><b>Email</b></label>
+        <input [(ngModel)]="emailSignup" type="email" class="form-control" placeholder="Enter email" required>
+      </div>
+      <div class="form-group">
+        <label ><b>Repeat Email</b></label>
+        <input [(ngModel)]="emailSignup2" type="email" class="form-control" placeholder="Repeat email" required>
+      </div>
+      <div class="form-group">
+        <label ><b>Name</b></label>
+        <input [(ngModel)]="nameSignup" type="text" class="form-control" placeholder="Enter Name" required>
+      </div>
+      <div class="form-group">
+        <label ><b>Password</b></label>
+        <input [(ngModel)]="pwdSignup" type="password" class="form-control" placeholder="Enter Password" required>
+      </div>
+      <div class="form-group">
+        <label ><b>Repeat Password</b></label>
+        <input [(ngModel)]="pwdSignup2" type="password" class="form-control" placeholder="Repeat Password" required>
+      </div>
+      <button type="button" class="btn btn-success btn-block" (click)="signup()">Sign Up</button>
+    </div>
+  </div>
+</ng-template>
+
+<button class="btn btn-outline-primary mb-2 mr-2" (click)="openWindow(signupTemplate)">Sign Up</button>
+<button class="btn btn-outline-primary mb-2 mr-2" (click)="openWindow(loginTemplate)">Log In</button>

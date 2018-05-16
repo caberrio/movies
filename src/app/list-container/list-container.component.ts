@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, SimpleChange, OnChanges} from '@angular/core';
 import {MovieService} from '../movie.service';
 
+
 @Component({
   selector: 'app-list-container',
   templateUrl: './list-container.component.html',
@@ -27,7 +28,6 @@ export class ListContainerComponent implements OnInit, OnChanges {
       this.moviesTop = data;
     });
     this.loadFavorites();
-
   }
 
   loadFavorites() {
