@@ -1,50 +1,62 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {SbxCoreService, SbxSessionService} from 'sbxangular';
+import {CookieService} from 'ngx-cookie-service';
 
 @Injectable()
 export class MovieService {
 
   APIKEY = '5198931fa9657e14d0fd0261c276ca40';
+  userId = this.cookie.get('user_id');
+  userKey: string;
 
-  constructor(private http: HttpClient, private sbxCoreService: SbxCoreService, private sbx: SbxSessionService) {
+
+  constructor(private http: HttpClient, private sbxCoreService: SbxCoreService, private cookie: CookieService) {
+    this.getUserKey().then(data => {this.userKey = data; });
   }
 
-  getList(name: string) {
-    return this.http.get('https://api.themoviedb.org/3/movie/' + name + '?api_key=' + this.APIKEY).toPromise().then((data: any) => {
+  getMovies(movieType: string) {
+    return this.sbxCoreService.find('movie').andWhereIsEqual('type', movieType).toPromise().then((data: any) => {
       return data.results;
     });
-  }
-
-  postMovies(data, cat) {
-    this.sbxCoreService.find('movie').then();
 
   }
-  searchMovie(query: string) {
-    return this.http.get('https://api.themoviedb.org/3/search/movie?api_key=' + this.APIKEY + '&query=' + query).toPromise()
+
+  getFavorites() {
+    return this.sbxCoreService.find('favorite').andWhereIsEqual('user.user_id', this.userId)
+      .fetchModels(['movie']).toPromise(['movie'])
       .then((data: any) => {
-        return data.results;
+        data = data.fetched_results.movie;
+        return Object.keys(data).map(key => {
+          return data[key];
+        });
       });
   }
 
-  isFavorite(id, list) {
-    let sw = true;
-    let index = -1;
-    list.forEach(item => {
-      if (item.id === id && sw) {
-        index = list.indexOf(item);
-        sw = false;
-      }
+  getUserKey() {
+    return this.sbxCoreService.find('user').andWhereIsEqual('user_id', this.userId).toPromise().then(data => {
+      return data.results[0]._KEY;
     });
-    return index;
   }
 
-  updateFavorites(movieSelected) {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const index = this.isFavorite(movieSelected.id, favorites);
-    index === -1 ? favorites.push(movieSelected) : favorites.splice(index, 1);
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    alert('Changes made to your favorites list!');
-    return favorites;
+  addFavorite(movieKey) {
+    this.sbxCoreService.insert('favorite', {user: this.userKey, movie: movieKey}).then(res => {});
+  }
+  removeFavorite(movieKey) {
+    this.sbxCoreService.delete('favorite').andWhereIsEqual('user', this.userKey)
+      .andWhereIsEqual('movie', movieKey).toPromise().then(res => {
+      console.log(res);
+    });
+  }
+  searchMovie(query: string) {
+    return this.sbxCoreService.find('movie').andWhereContains('title', query).toPromise()
+      .then((data: any) => {
+        return data.results;
+      });
+    /* themovie db search
+    return this.http.get('https://api.themoviedb.org/3/search/movie?api_key=' + this.APIKEY + '&query=' + query).toPromise()
+      .then((data: any) => {
+        return data.results;
+      });*/
   }
 }

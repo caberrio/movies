@@ -1,6 +1,5 @@
 import {Component, Input, OnInit, SimpleChange, OnChanges} from '@angular/core';
 import {MovieService} from '../movie.service';
-import {CookieService} from 'ngx-cookie-service';
 
 
 @Component({
@@ -18,27 +17,31 @@ export class ListContainerComponent implements OnInit, OnChanges {
 
   @Input() query;
 
-  constructor(private movieService: MovieService, private cookie: CookieService) {
+  constructor(private movieService: MovieService) {
   }
 
   ngOnInit() {
-    this.movieService.getList('popular').then(data => {
+    this.movieService.getMovies('popular').then(data => {
       this.moviesPopular = data;
     });
-    this.movieService.getList('top_rated').then(data => {
+    this.movieService.getMovies('top').then(data => {
       this.moviesTop = data;
     });
-    this.loadFavorites();
+    this.movieService.getFavorites().then(data => {
+      this.moviesFavorite = data;
+    });
   }
 
   loadFavorites() {
-    this.moviesFavorite = JSON.parse(localStorage.getItem('favorites'));
+    this.movieService.getFavorites().then(data => {
+      this.moviesFavorite = data;
+    });
   }
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
-    if (this.query !== '') {
+    if (this.query !== '' && this.query) {
       this.movieService.searchMovie(this.query).then(data => {
-        this.moviesSearch = data;
+        data.length === 0 ? alert('No movies where found') : this.moviesSearch = data;
       });
     }
   }

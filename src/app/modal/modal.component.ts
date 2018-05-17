@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MovieService} from '../movie.service';
+
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {MovieService} from '../movie.service';
 
 @Component({
   selector: 'app-modal',
@@ -10,17 +11,31 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 export class ModalComponent implements OnInit {
   @Input() movie;
   text = '';
-  favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  index = -1;
+  favorites = [];
 
   constructor(public activeModal: NgbActiveModal, private movieService: MovieService) {
   }
 
   ngOnInit() {
-    this.movieService.isFavorite(this.movie.id, this.favorites) !== -1 ? this.text = 'Remove from favorites'
-      : this.text = 'Add to favorites';
+    this.movieService.getFavorites().then(data => {
+      this.favorites = data;
+      this.text = this.isFavorite(this.movie.id) ? 'Remove from favorites' : 'Add to favorites';
+    });
   }
 
+  isFavorite(id) {
+    let sw = true;
+    this.favorites.forEach(item => {
+      if (item.id === id && sw) {
+        this.index = this.favorites.indexOf(item);
+        sw = false;
+      }
+    });
+    return !sw;
+  }
   updateFavorites(movieSelected) {
-    this.favorites = this.movieService.updateFavorites(movieSelected);
+    !this.isFavorite(movieSelected.id) ? this.movieService.addFavorite(movieSelected._KEY)
+      : this.movieService.removeFavorite(movieSelected._KEY);
   }
 }

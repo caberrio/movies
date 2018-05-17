@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from './auth.service';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from './auth.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-auth',
@@ -16,23 +16,33 @@ export class AuthComponent implements OnInit {
   nameSignup: string;
   pwdSignup: string;
   pwdSignup2: string;
+  modal: any;
 
-  constructor(private modalService: NgbModal, private authService: AuthService) { }
+
+  constructor(private modalService: NgbModal, private authService: AuthService) {
+  }
 
   ngOnInit() {
-    this.authService.getModel('movie');
   }
 
   openWindow(content) {
-    this.modalService.open(content);
+    this.modal = this.modalService.open(content);
   }
 
-  signup() {
-    this.authService.siteSignup(this.userSignup, this.emailSignup, this.nameSignup, this.pwdSignup );
+  signup(e) {
+    e.preventDefault();
+    if (this.emailSignup === this.emailSignup2 && this.pwdSignup === this.pwdSignup2) {
+      this.authService.siteSignup(this.userSignup, this.emailSignup, this.nameSignup, this.pwdSignup).then(res => {
+        res ? this.modal.close() : alert('error');
+      });
+    }
   }
 
-  login() {
-    this.authService.siteLogin(this.userLogin, this.pwdLogin);
+  login(e) {
+    e.preventDefault();
+    this.authService.siteLogin(this.userLogin, this.pwdLogin).then(res => {
+      res ? this.modal.close() : alert('Incorrect username or password');
+    });
   }
 
 }
