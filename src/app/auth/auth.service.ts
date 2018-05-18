@@ -25,6 +25,8 @@ export class AuthService {
     return this.sbxCoreService.signUp(username, email, name, password).then(data => {
       if (data.success) {
         this.siteLogin(username, password);
+        alert('User ' + username + ' successfully created, you can now log into the app!');
+        // this.sbxCoreService.insert('user') TODO: Insert user id into user model.
       }
       return data.success;
     }).catch(err => {
