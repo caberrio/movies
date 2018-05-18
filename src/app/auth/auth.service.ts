@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {SbxCoreService, SbxSessionService} from 'sbxangular';
+import {map} from 'rxjs/operators';
 
 import {CookieService} from 'ngx-cookie-service';
 
@@ -32,17 +33,19 @@ export class AuthService {
   }
 
   siteLoginRx(username, password) {
-    return this.sbxCoreService.loginRx(username, password, 222).subscribe(res => {
-      if (this.log) {
-        return false;
-      }
-      if (res.success) {
-        this.sbx.updateCookieToken(res.token);
-        this.cookie.set('user_id', res.user.id);
-        this.log = true;
-      }
-      console.log(res);
-    });
+    return this.sbxCoreService.loginRx(username, password, 222).pipe(
+      map(res => {
+        if (this.log) {
+          return false;
+        }
+        if (res.success) {
+          this.sbx.updateCookieToken(res.token);
+          this.cookie.set('user_id', res.user.id);
+          this.log = true;
+        }
+        return res.success;
+      })
+    );
   }
 
   siteLogout() {

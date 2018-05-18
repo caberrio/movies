@@ -58,7 +58,15 @@ export class AuthComponent implements OnInit {
 
   login(e) {
     e.preventDefault();
-    this.authService.siteLoginRx(this.userLogin, this.pwdLogin);
+    this.authService.siteLoginRx(this.userLogin, this.pwdLogin).subscribe(res => {
+      if (res) {
+        this.newLogin.emit();
+        this.clean();
+        this.modal.close();
+      } else {
+        alert('Login failed');
+      }
+    });
     /*if (this.userLogin && this.pwdLogin) {
       this.authService.siteLogin(this.userLogin, this.pwdLogin).then(res => {
         if (res) {
