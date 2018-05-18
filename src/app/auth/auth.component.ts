@@ -58,7 +58,8 @@ export class AuthComponent implements OnInit {
 
   login(e) {
     e.preventDefault();
-    if (this.userLogin && this.pwdLogin) {
+    this.authService.siteLoginRx(this.userLogin, this.pwdLogin);
+    /*if (this.userLogin && this.pwdLogin) {
       this.authService.siteLogin(this.userLogin, this.pwdLogin).then(res => {
         if (res) {
           this.newLogin.emit();
@@ -68,7 +69,7 @@ export class AuthComponent implements OnInit {
           alert('Login failed');
         }
       });
-    }
+    }*/
   }
 
   userLogout() {

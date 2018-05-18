@@ -18,8 +18,8 @@ export class AuthService {
   siteLogin(username, password) {
     return this.sbx.login(username, password, 222).then(data => {
       if (this.log) {
-        console.log('nope');
-        return false; }
+        return false;
+      }
       if (data.success) {
         this.sbx.updateCookieToken(data.token);
         this.cookie.set('user_id', data.user.id);
@@ -28,6 +28,20 @@ export class AuthService {
       return data.success;
     }).catch(err => {
       return false;
+    });
+  }
+
+  siteLoginRx(username, password) {
+    return this.sbxCoreService.loginRx(username, password, 222).subscribe(res => {
+      if (this.log) {
+        return false;
+      }
+      if (res.success) {
+        this.sbx.updateCookieToken(res.token);
+        this.cookie.set('user_id', res.user.id);
+        this.log = true;
+      }
+      console.log(res);
     });
   }
 
@@ -49,5 +63,15 @@ export class AuthService {
       console.log(err);
       return false;
     });
+  }
+
+  siteSignupRx(username, email, name, password) {
+    this.sbxCoreService.signUpRx(username, email, name, password).subscribe(res => {
+      if (res.success) {
+        console.log('ok');
+      }
+    }, (err => {
+      console.log('error');
+    }));
   }
 }
