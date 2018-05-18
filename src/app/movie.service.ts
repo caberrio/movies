@@ -6,7 +6,6 @@ import {CookieService} from 'ngx-cookie-service';
 @Injectable()
 export class MovieService {
 
-  APIKEY = '5198931fa9657e14d0fd0261c276ca40';
   userId = this.cookie.get('user_id');
   userKey: string;
 
@@ -24,14 +23,27 @@ export class MovieService {
 
   getFavorites() {
     return this.sbxCoreService.find('favorite').andWhereIsEqual('user.user_id', this.userId)
-      .fetchModels(['movie']).toPromise(['movie'])
+      .fetchModels(['movie']).toPromise()
       .then((data: any) => {
-        data = data.fetched_results.movie;
+        data = data.fetched_results.movie || {};
         return Object.keys(data).map(key => {
           return data[key];
         });
       });
   }
+
+  /*getFavoritesRX() {
+    return this.sbxCoreService.find('favorite').andWhereIsEqual('user.user_id', this.userId)
+      .fetchModels(['movie']).thenRx().map(res =>{
+
+      })
+      .then((data: any) => {
+        data = data.fetched_results.movie || {};
+        return Object.keys(data).map(key => {
+          return data[key];
+        });
+      });
+  }*/
 
   getUserKey() {
     return this.sbxCoreService.find('user').andWhereIsEqual('user_id', this.userId).toPromise().then(data => {
@@ -40,23 +52,18 @@ export class MovieService {
   }
 
   addFavorite(movieKey) {
-    this.sbxCoreService.insert('favorite', {user: this.userKey, movie: movieKey}).then(res => {});
+    return this.sbxCoreService.insert('favorite', {user: this.userKey, movie: movieKey}).then(res => {
+    });
   }
   removeFavorite(movieKey) {
-    this.sbxCoreService.delete('favorite').andWhereIsEqual('user', this.userKey)
+    return this.sbxCoreService.delete('favorite').andWhereIsEqual('user', this.userKey)
       .andWhereIsEqual('movie', movieKey).toPromise().then(res => {
-      console.log(res);
-    });
+      });
   }
   searchMovie(query: string) {
     return this.sbxCoreService.find('movie').andWhereContains('title', query).toPromise()
       .then((data: any) => {
         return data.results;
       });
-    /* themovie db search
-    return this.http.get('https://api.themoviedb.org/3/search/movie?api_key=' + this.APIKEY + '&query=' + query).toPromise()
-      .then((data: any) => {
-        return data.results;
-      });*/
   }
 }

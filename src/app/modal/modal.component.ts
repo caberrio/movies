@@ -34,8 +34,16 @@ export class ModalComponent implements OnInit {
     });
     return !sw;
   }
+
   updateFavorites(movieSelected) {
-    !this.isFavorite(movieSelected.id) ? this.movieService.addFavorite(movieSelected._KEY)
-      : this.movieService.removeFavorite(movieSelected._KEY);
+    if (!this.isFavorite(movieSelected.id)) {
+      this.movieService.addFavorite(movieSelected._KEY).then(res => {
+        this.activeModal.close('Movie successfully added to your Favorites');
+      });
+    } else {
+      this.movieService.removeFavorite(movieSelected._KEY).then(res => {
+        this.activeModal.close('Movie successfully deleted from your Favorites');
+      });
+    }
   }
 }

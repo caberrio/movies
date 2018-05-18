@@ -18,16 +18,17 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   openMovie(movie) {
-    const modalRef = this.modalService.open(ModalComponent, { size: 'lg'});
+    const modalRef = this.modalService.open(ModalComponent, {size: 'lg'});
     modalRef.componentInstance.movie = movie;
 
     modalRef.result.then((data) => {
+      alert(data);
+      this.update.emit();
+    }, (res) => {
       this.update.emit();
     });
   }
 }
-

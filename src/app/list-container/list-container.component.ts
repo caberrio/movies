@@ -13,7 +13,7 @@ export class ListContainerComponent implements OnInit, OnChanges {
   private moviesTop: any;
   private moviesSearch: any;
   private moviesFavorite: any;
-  userAuth = true;
+  private fav: any;
 
   @Input() query;
 
@@ -32,11 +32,15 @@ export class ListContainerComponent implements OnInit, OnChanges {
     });
     this.movieService.getFavorites().then(data => {
       this.moviesFavorite = data;
+      this.fav = this.moviesFavorite.length !== 0;
     });
   }
+
   loadFavorites() {
     this.movieService.getFavorites().then(data => {
       this.moviesFavorite = data;
+
+      this.fav = this.moviesFavorite.length !== 0;
     });
   }
 

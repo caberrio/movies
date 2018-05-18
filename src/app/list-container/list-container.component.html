@@ -2,9 +2,9 @@
 
 <hr *ngIf="moviesSearch">
 
-<app-list [title]="'Favorites'" [movies]="moviesFavorite" *ngIf="moviesFavorite"></app-list>
+<app-list [title]="'Favorites'" [movies]="moviesFavorite" *ngIf="fav" (update)="loadFavorites()"></app-list>
 
-<hr *ngIf="moviesFavorite">
+<hr *ngIf="fav">
 
 <app-list [title]="'Popular'" [movies]="moviesPopular" (update)="loadFavorites()"></app-list>
 

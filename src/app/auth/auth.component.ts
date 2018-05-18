@@ -30,26 +30,50 @@ export class AuthComponent implements OnInit {
     this.modal = this.modalService.open(content);
   }
 
+  clean() {
+    this.userLogin = '';
+    this.pwdLogin = '';
+
+    this.userSignup = '';
+    this.emailSignup = '';
+    this.emailSignup2 = '';
+    this.nameSignup = '';
+    this.pwdSignup = '';
+    this.pwdSignup2 = '';
+  }
+
   signup(e) {
     e.preventDefault();
     if (this.emailSignup === this.emailSignup2 && this.pwdSignup === this.pwdSignup2) {
       this.authService.siteSignup(this.userSignup, this.emailSignup, this.nameSignup, this.pwdSignup).then(res => {
-        res ? this.modal.close() : alert('error');
+        if (res) {
+          this.modal.close();
+          this.clean();
+        } else {
+          alert('error: ' + res);
+        }
       });
     }
   }
 
   login(e) {
     e.preventDefault();
-    this.authService.siteLogin(this.userLogin, this.pwdLogin).then(res => {
-      if (res) {
-        this.newLogin.emit();
-        this.modal.close();
-      } else {
-        alert('Incorrect username or password');
-      }
-    });
+    if (this.userLogin && this.pwdLogin) {
+      this.authService.siteLogin(this.userLogin, this.pwdLogin).then(res => {
+        if (res) {
+          this.newLogin.emit();
+          this.clean();
+          this.modal.close();
+        } else {
+          alert('Login failed');
+        }
+      });
+    }
   }
 
-
+  userLogout() {
+   if (this.authService.isLogged()) {
+     this.authService.siteLogout();
+   }
+  }
 }
