@@ -9,11 +9,11 @@ import {MovieService} from '../movie.service';
 })
 export class ListContainerComponent implements OnInit, OnChanges {
 
-
   private moviesPopular: any;
   private moviesTop: any;
   private moviesSearch: any;
   private moviesFavorite: any;
+  userAuth = true;
 
   @Input() query;
 
@@ -21,6 +21,9 @@ export class ListContainerComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.loadMovies();
+  }
+  loadMovies() {
     this.movieService.getMovies('popular').then(data => {
       this.moviesPopular = data;
     });
@@ -31,7 +34,6 @@ export class ListContainerComponent implements OnInit, OnChanges {
       this.moviesFavorite = data;
     });
   }
-
   loadFavorites() {
     this.movieService.getFavorites().then(data => {
       this.moviesFavorite = data;

@@ -9,11 +9,11 @@
     </li>
   </ul>
   <form class="form-inline">
-    <input [(ngModel)]="query" name="''" class="form-control mr-2" type="search" placeholder="Search">
+    <input [(ngModel)]="query" name="input" class="form-control mr-2" type="search" placeholder="Search">
     <button class="btn btn-primary my-2 my-sm-0" type="submit" (click)="onNewSearch()">Search Movie</button>
   </form>
   <div class="navbar-light my-auto">
-    <app-auth class="nav-link"></app-auth>
+    <app-auth (newLogin)="setLogged()" class="nav-link"></app-auth>
 
   </div>
 </nav>

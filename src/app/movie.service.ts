@@ -17,7 +17,7 @@ export class MovieService {
 
   getMovies(movieType: string) {
     return this.sbxCoreService.find('movie').andWhereIsEqual('type', movieType).toPromise().then((data: any) => {
-      return data.results;
+       return data.success ? data.results : [];
     });
 
   }

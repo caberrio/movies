@@ -10,10 +10,15 @@ export class HeaderComponent implements OnInit {
   query: string;
 
   @Output() newSearch = new EventEmitter();
+  @Output() onLogged = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  setLogged() {
+    this.onLogged.emit();
   }
 
   onNewSearch() {

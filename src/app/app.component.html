@@ -1,6 +1,6 @@
 
-<app-header (newSearch)="makeSearch($event)"></app-header>
+<app-header (newSearch)="makeSearch($event)" (onLogged)="logged()"></app-header>
 
-<div class="container">
+<div class="container" *ngIf="userLogged">
   <app-list-container [query]="query"></app-list-container>
 </div>

@@ -7,8 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   query = '';
+  userLogged = false;
 
   makeSearch(event) {
     this.query = event;
+  }
+
+  logged() {
+    this.userLogged = true;
   }
 }

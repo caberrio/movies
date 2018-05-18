@@ -31,9 +31,4 @@ export class AuthService {
       return false;
     });
   }
-
-  getModel(name: string) {
-    this.sbxCoreService.find(name).toPromise().then(data => {
-    });
-  }
 }

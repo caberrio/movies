@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnChanges, OnInit, Output} from '@angular/core';
 import {AuthService} from './auth.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
@@ -18,6 +18,7 @@ export class AuthComponent implements OnInit {
   pwdSignup2: string;
   modal: any;
 
+  @Output() newLogin = new EventEmitter();
 
   constructor(private modalService: NgbModal, private authService: AuthService) {
   }
@@ -41,8 +42,14 @@ export class AuthComponent implements OnInit {
   login(e) {
     e.preventDefault();
     this.authService.siteLogin(this.userLogin, this.pwdLogin).then(res => {
-      res ? this.modal.close() : alert('Incorrect username or password');
+      if (res) {
+        this.newLogin.emit();
+        this.modal.close();
+      } else {
+        alert('Incorrect username or password');
+      }
     });
   }
+
 
 }
